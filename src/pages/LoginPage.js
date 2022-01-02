@@ -1,6 +1,14 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+
+
 const LoginPage = () => {
+
+  let navigate = useNavigate();
+
+  // useEffect(() => {
+  //   navigate('home')
+  // }, [])
   return (
     <div className='flex justify-center p-20'>
       <div class="flex flex-col w-full max-w-md px-4 py-8 bg-white rounded-lg shadow dark:bg-gray-800 sm:px-6 md:px-8 lg:px-10">
@@ -35,9 +43,11 @@ const LoginPage = () => {
 
             </div>
             <div class="flex w-full">
-              <button type="submit" class="py-2 px-4  bg-purple-600 hover:bg-purple-700 focus:ring-purple-500 focus:ring-offset-purple-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg ">
-                Login
-              </button>
+              <Link className='flex w-full' to="/home">
+                <button type="submit" class="py-2 px-4  bg-purple-600 hover:bg-purple-700 focus:ring-purple-500 focus:ring-offset-purple-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg ">
+                  Login
+                </button>
+              </Link>
             </div>
           </form>
         </div>

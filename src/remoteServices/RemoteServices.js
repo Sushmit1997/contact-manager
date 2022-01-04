@@ -1,7 +1,7 @@
 const axios = require('axios');
 
 const remote = {
-  address: 'http://139.59.35.207/api/v2/'
+  address: 'http://localhost:5000'
   // address: window.config.apiUrl
 }
 
@@ -93,8 +93,8 @@ const putRequests = (api, data) => {
 
 var RemoteServices = {
   sendLogin: (data) => {
-    const url = `user/login`
-    return postRequests(url, data)
+    const url = `/posts`
+    return getRequests(url)
   }
 }
 

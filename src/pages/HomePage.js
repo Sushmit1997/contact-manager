@@ -25,7 +25,7 @@ const HomePage = () => {
   return (
     <div >
       <NavBar getContacts={getContacts} />
-      <div className='text-center mt-10'><h1 className='text-4xl'>Your Contacts</h1></div>
+      <div className='text-center mt-10'><h1 className='text-4xl'>Your Contacts ({contacts.length})</h1></div>
       <div className='flex-column p-20 mt-2 rounded-lg justify-center p-10'>
         {contactsLoading ?
           <div style={{ display: 'flex', justifyContent: 'center' }}>

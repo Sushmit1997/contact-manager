@@ -23,6 +23,8 @@ const ContactCard = ({ contact, getContacts }) => {
   const [showModal, setShowModal] = useState(false)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
 
+  const address = 'http://localhost:5000/'
+
   const { addToast } = useToasts();
 
   const closeModal = () => {
@@ -61,7 +63,7 @@ const ContactCard = ({ contact, getContacts }) => {
         </div>
         }
         <div className="photo-wrapper p-2">
-          <img className="w-32 h-32 rounded-full mx-auto" src={sushmitImage} alt="John Doe"></img>
+          <img className="w-32 h-32 rounded-full mx-auto" src={contact.image ? address + contact.image : sushmitImage} alt="John Doe"></img>
         </div>
         <div className="p-2">
           <h3 className="text-center text-xl text-gray-900 font-medium leading-8">{contact.name}</h3>

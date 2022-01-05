@@ -7,8 +7,8 @@ import { useToasts } from 'react-toast-notifications';
 const Services = require('../remoteServices/RemoteServices');
 
 const ContactForm = ({ action, contact, handleActionSuccess }) => {
-
-  const [imagePreview, setImagePreview] = useState('')
+  const address = 'http://localhost:5000/'
+  const [imagePreview, setImagePreview] = useState(address + contact.image)
 
   const [formData, setFormData] = useState({
     name: contact.name,
@@ -17,6 +17,8 @@ const ContactForm = ({ action, contact, handleActionSuccess }) => {
     image: contact.image,
     address: contact.address,
   })
+
+
 
   const { addToast } = useToasts();
 
@@ -45,21 +47,31 @@ const ContactForm = ({ action, contact, handleActionSuccess }) => {
 
   const handleImageSelect = (e) => {
     let fileName = e.target.files[0].name
+    let file = e.target.files[0]
     if (isImage(fileName)) {
-      setFormData({ ...formData, image: URL.createObjectURL(e.target.files[0]) })
+      setFormData({ ...formData, image: file })
       setImagePreview(URL.createObjectURL(e.target.files[0]))
     }
   }
 
   const handleFormSubmit = () => {
+
+    const data = new FormData()
+    data.append('image', formData.image)
+    data.append('name', formData.name)
+    data.append('number', formData.number)
+    data.append('address', formData.address)
+    data.append('email', formData.email)
+
+
     action === 'add' ?
-      Services.addContact(formData).then((res) => {
+      Services.addContact(data).then((res) => {
         handleActionSuccess()
         addToast('Contact added.', { appearance: 'success' });
       }).catch((err) => {
         addToast('Failed', { appearance: 'error' });
       }) :
-      Services.updateContact(formData, contact._id).then((res) => {
+      Services.updateContact(data, contact._id).then((res) => {
         handleActionSuccess()
         addToast('Contact updated.', { appearance: 'success' });
       }).catch((err) => {
@@ -69,12 +81,14 @@ const ContactForm = ({ action, contact, handleActionSuccess }) => {
 
   }
 
+  console.log(formData)
+
   return (
     <div>
       <form className="w-full max-w-lg">
         <div className="flex-column justify-center">
           <div className="photo-wrapper p-2">
-            {imagePreview && <img className="w-32 h-32 rounded-full mx-auto" src={imagePreview} alt="John Doe"></img>}
+            <img className="w-32 h-32 rounded-full mx-auto" src={imagePreview} alt="Profile"></img>
           </div>
           <input onChange={(e) => handleImageSelect(e)} accept="png/jpeg" type="file"></input>
         </div>

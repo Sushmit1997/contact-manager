@@ -1,33 +1,52 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useToasts } from 'react-toast-notifications';
+
+
 const Services = require('../remoteServices/RemoteServices');
 
 
+
 const LoginPage = () => {
+
+  const [signingIn, setSigningIn] = useState(false)
+
   const [loginData, setLoginData] = useState({
     email: '',
     password: ''
   })
+
+  const { addToast } = useToasts();
 
   let navigate = useNavigate();
 
   const handleFormUpdate = (e) => {
     let name = e.target.name
     let value = e.target.value
-    setLoginData({ ...loginData, [name]: [value] })
+    setLoginData({ ...loginData, [name]: value })
   }
+
+  useEffect(() => {
+    let token = localStorage.getItem('token')
+
+    if (token) {
+      navigate('home')
+    }
+
+  }, [])
+
 
   const handleSubmit = async () => {
-    await Services.sendLogin(loginData).then((res) => {
-      console.log(res)
-    }).catch((err) => {
-      alert(err)
+    await Services.sendSignin(loginData).then((response) => {
+      addToast('Signin Successfull', { appearance: 'success' });
+      localStorage.setItem('token', response.token);
+      navigate('home')
     })
+      .catch((err) => {
+        addToast("Invalid Email or Password.", { appearance: 'error' });
+      })
   }
 
-  // useEffect(() => {
-  //   navigate('home')
-  // }, [])
   return (
     <div className='flex justify-center p-20'>
       <div className="flex flex-col w-full max-w-md px-4 py-8 bg-white rounded-lg shadow dark:bg-gray-800 sm:px-6 md:px-8 lg:px-10">
@@ -35,7 +54,7 @@ const LoginPage = () => {
           Login To Contact Manager
         </div>
         <div className="mt-8">
-          <form action="#" autoComplete="off">
+          <div autoComplete="nope">
             <div className="flex flex-col mb-2">
               <div className="flex relative ">
                 <span className="rounded-l-md inline-flex  items-center px-3 border-t bg-white border-l border-b  border-gray-300 text-gray-500 shadow-sm text-sm">
@@ -44,7 +63,7 @@ const LoginPage = () => {
                     </path>
                   </svg>
                 </span>
-                <input type="text" name="email" value={loginData.email} id="sign-in-email" onChange={(e) => handleFormUpdate(e)} className=" rounded-r-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" placeholder="Your email" />
+                <input autocomplete="nope" type="text" name="email" value={loginData.email} id="sign-in-email" onChange={(e) => handleFormUpdate(e)} className=" rounded-r-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" placeholder="Your email" />
               </div>
             </div>
             <div className="flex flex-col mb-6">
@@ -55,7 +74,7 @@ const LoginPage = () => {
                     </path>
                   </svg>
                 </span>
-                <input type="password" name="password" value={loginData.password} onChange={(e) => handleFormUpdate(e)} id="sign-in-email" className=" rounded-r-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" placeholder="Your password" />
+                <input autocomplete="nope" type="password" name="password" value={loginData.password} onChange={(e) => handleFormUpdate(e)} id="sign-in-email" className=" rounded-r-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" placeholder="Your password" />
               </div>
             </div>
             <div className="flex items-center mb-6 -mt-4">
@@ -68,7 +87,7 @@ const LoginPage = () => {
               </button>
 
             </div>
-          </form>
+          </div>
         </div>
         <div className="flex items-center justify-center mt-6">
           <a href="#" target="_blank" className="inline-flex items-center text-xs font-thin text-center text-gray-500 hover:text-gray-700 dark:text-gray-100 dark:hover:text-white">

@@ -1,4 +1,4 @@
-import { sushmitImage } from "../assets"
+import { avatar } from "../assets"
 import { useEffect, useState } from 'react'
 import Modal from 'react-modal';
 import ContactForm from "./ContactForm";
@@ -50,12 +50,20 @@ const ContactCard = ({ contact, getContacts }) => {
     })
   }
 
+  const handleFavourite = () => {
+    Services.addRemoveFavourite(contact._id).then((res) => {
+      addToast(contact.isFavourite ? 'Removed from favourites.' : 'Added to favourites', { appearance: 'success' });
+      getContacts()
+    })
+  }
+
 
   return (
-    <div className="flex justify-center mb-10">
+    <div className="flex justify-center mb-10 ">
 
-      <div className="relative max-w-[500px] min-w-[300px] bg-white shadow-xl rounded-lg py-3">
+      <div className="relative max-w-[500px] min-w-[300px] bg-white shadow-xl rounded-lg py-3 shadow-3xl">
         <div onClick={() => setShowMenu(true)} className="absolute right-[15px] top-[5px] cursor-pointer "><i className="fa fa-ellipsis-v "></i></div>
+        <div onClick={handleFavourite} className="absolute right-[35px] top-[5px] cursor-pointer "><i className={`fa fa-heart ${contact.isFavourite ? 'text-red-500' : 'text-black'} `}></i></div>
         {showMenu && <div onMouseLeave={() => setShowMenu(false)} className="absolute right-[-70px] top-[5px] cursor-pointer bg-white p-[5px] shadow-sm"><ul>
           <li className="hover:text-teal-500" onClick={() => setShowModal(true)}>Update</li>
           <li className="hover:text-teal-500" onClick={() => setShowDeleteConfirm(true)}>Delete</li>
@@ -63,7 +71,7 @@ const ContactCard = ({ contact, getContacts }) => {
         </div>
         }
         <div className="photo-wrapper p-2">
-          <img className="w-32 h-32 rounded-full mx-auto" src={contact.image ? address + contact.image : sushmitImage} alt="John Doe"></img>
+          <img className="w-32 h-32 rounded-full mx-auto" src={contact.image ? address + contact.image : avatar} alt="John Doe"></img>
         </div>
         <div className="p-2">
           <h3 className="text-center text-xl text-gray-900 font-medium leading-8">{contact.name}</h3>
@@ -91,6 +99,7 @@ const ContactCard = ({ contact, getContacts }) => {
         style={customStyles}
         contentLabel="Example Modal"
         onRequestClose={closeModal}
+
       >
         <ContactForm contact={contact} action='update' handleActionSuccess={handleActionSuccess} />
       </Modal>

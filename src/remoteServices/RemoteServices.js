@@ -100,6 +100,10 @@ var RemoteServices = {
   updateContact: (data, id) => {
     const url = `/contacts/${id}`
     return patchRequests(url, data)
+  },
+  addRemoveFavourite: (id) => {
+    const url = `/contacts/favourite/${id}`
+    return getRequests(url)
   }
 }
 

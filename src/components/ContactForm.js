@@ -2,6 +2,8 @@
 import { useEffect, useState } from "react"
 import { useToasts } from 'react-toast-notifications';
 
+import { avatar } from "../assets"
+
 
 
 const Services = require('../remoteServices/RemoteServices');
@@ -18,6 +20,12 @@ const ContactForm = ({ action, contact, handleActionSuccess }) => {
     address: contact.address,
   })
 
+  useEffect(() => {
+    action === 'add' && setImagePreview(avatar)
+  }, [])
+
+
+  let clickHandler = null
 
 
   const { addToast } = useToasts();
@@ -81,7 +89,6 @@ const ContactForm = ({ action, contact, handleActionSuccess }) => {
 
   }
 
-  console.log(formData)
 
   return (
     <div>
@@ -90,7 +97,9 @@ const ContactForm = ({ action, contact, handleActionSuccess }) => {
           <div className="photo-wrapper p-2">
             <img className="w-32 h-32 rounded-full mx-auto" src={imagePreview} alt="Profile"></img>
           </div>
-          <input onChange={(e) => handleImageSelect(e)} accept="png/jpeg" type="file"></input>
+          <input id="files" className=" hidden ml-[100px] mt-5 bg-blue-500 capitalize hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded justify-end" onChange={(e) => handleImageSelect(e)} accept="png/jpeg" type="file">
+          </input>
+          <label className="block w-1/2 m-auto text-center mt-5 text-lg uppercase tracking-wide text-white pointer text-xs font-bold mb-2 pointer bg-blue-500 capitalize hover:bg-blue-700 text-white font-bold py-2 px-4 " for="files" >{action === 'add' ? 'Add Image' : 'Change Image'} </label>
         </div>
         <div className="flex flex-wrap -mx-3 mb-6 mt-10">
 

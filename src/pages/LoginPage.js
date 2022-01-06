@@ -40,6 +40,7 @@ const LoginPage = () => {
     await Services.sendSignin(loginData).then((response) => {
       addToast('Signin Successfull', { appearance: 'success' });
       localStorage.setItem('token', response.token);
+      localStorage.setItem('user', JSON.stringify(response.user))
       navigate('home')
     })
       .catch((err) => {

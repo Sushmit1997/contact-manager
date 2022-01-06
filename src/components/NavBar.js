@@ -40,7 +40,7 @@ const NavBar = ({ getContacts }) => {
   }
 
   return (
-    <nav class="flex  flex-wrap bg-teal-500 p-3">
+    <nav class="flex  flex-wrap bg-green-900 p-3">
       <div className="flex w-full justify-between">
         <div class="flex justify-end w-full block flex-grow lg:flex lg:items-center lg:w-auto">
           <button onClick={() => setShowModal(true)} href="#" class="inline-block mr-5 text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0">Add Contact</button>

@@ -25,9 +25,6 @@ const ContactForm = ({ action, contact, handleActionSuccess }) => {
   }, [])
 
 
-  let clickHandler = null
-
-
   const { addToast } = useToasts();
 
   const handleFormData = (event) => {

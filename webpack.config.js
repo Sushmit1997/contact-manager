@@ -1,7 +1,7 @@
 module.exports = {
   resolve: {
     fallback: {
-      "process": false
+      "process": require.resolve("process/browser")
     },
   }
 }

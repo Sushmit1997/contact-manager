@@ -1,8 +1,7 @@
 const axios = require('axios');
 
 const remote = {
-  address: 'http://localhost:5000'
-  // address: window.config.apiUrl
+  address: process.env.REACT_APP_API_URL
 }
 
 const getRequests = (api) => {

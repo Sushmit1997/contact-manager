@@ -9,8 +9,8 @@ import { avatar } from "../assets"
 const Services = require('../remoteServices/RemoteServices');
 
 const ContactForm = ({ action, contact, handleActionSuccess }) => {
-  const address = 'http://localhost:5000/'
-  const [imagePreview, setImagePreview] = useState(address + contact.image)
+  const address = process.env.REACT_APP_API_URL
+  const [imagePreview, setImagePreview] = useState(address + "/" + contact.image)
 
   const [formData, setFormData] = useState({
     name: contact.name,
